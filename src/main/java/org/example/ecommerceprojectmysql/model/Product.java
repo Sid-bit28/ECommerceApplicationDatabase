@@ -37,6 +37,10 @@ public class Product {
     @Column(name = "active", columnDefinition = "BOOLEAN DEFAULT true")
     private Boolean active = true;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = true)
+    private Category category;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -44,4 +48,21 @@ public class Product {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public Product(String name, String description, BigDecimal price, Integer quantity,  Category category) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+        this.active = true;
+        this.category = category;
+    }
+
+    public Product(String name, String description, BigDecimal price, Integer quantity) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+        this.active = true;
+    }
 }
