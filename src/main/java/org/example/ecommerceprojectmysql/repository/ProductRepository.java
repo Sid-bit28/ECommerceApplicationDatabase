@@ -5,9 +5,11 @@ import org.example.ecommerceprojectmysql.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 
+@Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findByCategory(Category category, Pageable pageable);
 
@@ -19,5 +21,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findByCategoryAndPriceBetween(Category category, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable);
 
-    Page<Product> findByCategoryAndNameContainingIgnoreCaseAndPriceBetween(Category category, String name, BigDecimal minPrice, BigDecimal maxPrice);
+    Page<Product> findByCategoryAndNameContainingIgnoreCaseAndPriceBetween(Category category, String name, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable);
 }

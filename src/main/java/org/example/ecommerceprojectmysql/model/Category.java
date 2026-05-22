@@ -8,7 +8,6 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +43,13 @@ public class Category {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public void addProduct(Product product) {
-        product.setCategory(this);
-        products.add(product);
-    }
-
-    public void removeProduct(Product product) {
-        products.remove(product);
-        product.setCategory(null);
-    }
+//    public void addProduct(Product product) {
+//        product.setCategory(this);
+//        products.add(product);
+//    }
+//
+//    public void removeProduct(Product product) {
+//        products.remove(product);
+//        product.setCategory(null);
+//    }
 }
