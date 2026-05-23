@@ -1,6 +1,5 @@
 package org.example.ecommerceprojectmysql.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.ecommerceprojectmysql.dto.CategoryResponse;
@@ -16,8 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.awt.dnd.InvalidDnDOperationException;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +44,7 @@ public class CategoryService {
         return CategoryResponse.fromEntity(saved);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public CategoryResponse getCategory(Long id) {
         log.info("Getting category with id: {}", id);
         Category category = categoryRepository.findById(id)
@@ -55,6 +53,7 @@ public class CategoryService {
         return CategoryResponse.fromEntity(category);
     }
 
+    @Transactional
     public CategoryResponse updateCategory(Long id, UpdateCategoryRequest request) {
         log.info("Updating category with id: {}", id);
         Category category = categoryRepository.findById(id)
@@ -97,7 +96,7 @@ public class CategoryService {
         log.info("Category deleted with id: {}", id);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<CategoryResponse> listCategories(int page, int size) {
         log.info("Listing categories with page: {}, size: {}", page, size);
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
@@ -105,7 +104,7 @@ public class CategoryService {
         return categories.map(CategoryResponse::fromEntity);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<CategoryResponse> listActiveCategories(int page, int size) {
         log.info("Listing active categories with page: {}, size: {}", page, size);
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
@@ -113,7 +112,7 @@ public class CategoryService {
         return categories.map(CategoryResponse::fromEntity);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<CategoryResponse> searchCategories(String query, int page, int size) {
         log.info("Searching categories with page {}, size: {}", page, size);
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
@@ -121,10 +120,14 @@ public class CategoryService {
         return categories.map(CategoryResponse::fromEntity);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Boolean existsById(Long id) {
         return categoryRepository.existsById(id);
     }
 
-
+    @Transactional(readOnly = true)
+    public Category getCategoryEntity(Long id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category with id" + id + "not found"));
+    }
 }
