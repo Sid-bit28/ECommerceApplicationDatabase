@@ -96,34 +96,29 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductResponse> listProducts(int page, int size) {
-        log.info("Fetching products with page: {}, size: {}", page, size);
-        Pageable pageable = PageRequest.of(page, size,  Sort.by("createdAt").descending());
+    public Page<ProductResponse> listProducts(Pageable pageable) {
         Page<Product> products = productRepository.findAllWithCategories(pageable);
         return  products.map(ProductResponse::fromEntity);
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductResponse> findProductsByCategory(Long categoryId, int page, int size) {
-        log.info("Fetching products category: {} with page: {}, size: {}", categoryId, page, size);
+    public Page<ProductResponse> findProductsByCategory(Long categoryId, Pageable pageable) {
+        log.info("Fetching products category: {}", categoryId);
         Category category = categoryService.getCategoryEntity(categoryId);
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<Product> products = productRepository.findByCategoryAndActiveTrue(category, pageable);
         return products.map(ProductResponse::fromEntity);
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductResponse> searchProducts(String name, int page, int size) {
-        log.info("Searching products with name: {}, page: {}, size: {}", name, page, size);
-        Pageable pageable = PageRequest.of(page, size,  Sort.by("createdAt").descending());
+    public Page<ProductResponse> searchProducts(String name, Pageable pageable) {
+        log.info("Searching products with name: {}", name);
         Page<Product> products = productRepository.findByNameContainingIgnoreCase(name, pageable);
         return products.map(ProductResponse::fromEntity);
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductResponse> findByPriceRange(BigDecimal minPrice, BigDecimal maxPrice, int page, int size) {
-        log.info("Searching products with min-max range: {}, {}. Page: {}, Size: {}", minPrice, maxPrice, page, size);
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+    public Page<ProductResponse> findByPriceRange(BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
+        log.info("Searching products with min-max range: {}, {}.", minPrice, maxPrice);
         Page<Product> products = productRepository.findByPriceBetween(minPrice, maxPrice, pageable);
         return products.map(ProductResponse::fromEntity);
     }
