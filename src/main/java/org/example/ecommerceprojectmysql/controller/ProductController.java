@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 
 @RestController
+@RequestMapping("/api/products")
 @Validated
 @RequiredArgsConstructor
 @Slf4j
