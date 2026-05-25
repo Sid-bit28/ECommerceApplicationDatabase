@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.ecommerceprojectmysql.dto.CategoryResponse;
 import org.example.ecommerceprojectmysql.dto.CreateCategoryRequest;
+import org.example.ecommerceprojectmysql.dto.UpdateCategoryRequest;
 import org.example.ecommerceprojectmysql.model.Category;
 import org.example.ecommerceprojectmysql.service.CategoryService;
 import org.springframework.data.domain.Page;
@@ -60,6 +61,22 @@ public class CategoryController {
         Page<CategoryResponse> responses = categoryService.listCategories(pageable);
         log.info("Fetching categories with sort order: {}", sortOrder);
         return ResponseEntity.ok(responses);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @Valid @RequestBody UpdateCategoryRequest request) {
+        log.info("Updating category with id: {}", id);
+        CategoryResponse response = categoryService.updateCategory(id, request);
+        log.info("Category updated successfully with id: {}", response.getId());
+        return ResponseEntity.ok().body(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<void> deleteCategory(@PathVariable Long id) {
+        log.info("Deleting category with id: {}", id);
+        categoryService.deleteCategory(id);
+        log.info("Category deleted successfully with id: {}", id);
+        return ResponseEntity.noContent().build();
     }
 
 
