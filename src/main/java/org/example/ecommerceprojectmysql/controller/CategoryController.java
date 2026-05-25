@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.ecommerceprojectmysql.dto.CategoryResponse;
 import org.example.ecommerceprojectmysql.dto.CreateCategoryRequest;
 import org.example.ecommerceprojectmysql.dto.UpdateCategoryRequest;
-import org.example.ecommerceprojectmysql.model.Category;
 import org.example.ecommerceprojectmysql.service.CategoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,8 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -78,6 +75,4 @@ public class CategoryController {
         log.info("Category deleted successfully with id: {}", id);
         return ResponseEntity.noContent().build();
     }
-
-
 }
