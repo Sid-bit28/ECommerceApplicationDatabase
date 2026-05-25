@@ -97,9 +97,8 @@ public class CategoryService {
     }
 
     @Transactional(readOnly = true)
-    public Page<CategoryResponse> listCategories(int page, int size) {
-        log.info("Listing categories with page: {}, size: {}", page, size);
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+    public Page<CategoryResponse> listCategories(Pageable pageable) {
+//        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<Category> categories = categoryRepository.findAll(pageable);
         return categories.map(CategoryResponse::fromEntity);
     }
